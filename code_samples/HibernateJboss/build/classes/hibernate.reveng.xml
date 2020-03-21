@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd" >
+
+<hibernate-reverse-engineering>
+  <table-filter match-catalog="test" match-name="class"/>
+  <table-filter match-catalog="test" match-name="classinfo"/>
+  <table-filter match-catalog="test" match-name="course"/>
+  <table-filter match-catalog="test" match-name="coustu"/>
+  <table-filter match-catalog="test" match-name="student"/>
+  <table-filter match-catalog="test" match-name="user"/>
+</hibernate-reverse-engineering>

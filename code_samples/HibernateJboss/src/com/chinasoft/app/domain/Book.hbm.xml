@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2017-7-14 16:42:05 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.chinasoft.app.domain.Book" table="book" catalog="test">
+        <id name="bookid" type="java.lang.Integer">
+            <column name="bookid" />
+            <generator class="identity" />
+        </id>
+        <property name="bookname" type="string">
+            <column name="bookname" />
+        </property>
+        <property name="publicname" type="string">
+            <column name="publicname" />
+        </property>
+        <property name="year" type="string">
+            <column name="year" />
+        </property>
+    </class>
+</hibernate-mapping>
