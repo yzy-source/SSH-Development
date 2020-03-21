@@ -1,0 +1,92 @@
+1.struts2的入门知识
+2.第一个程序
+3.参数获取：
+	1.属性驱动：
+		1.1：private String XXX；get/set
+		1.2:声明一个属性类，get/set
+	2.模型驱动：
+		1.1:实行一个模型驱动，重写方法，返回类。
+
+4.登录：
+5.连接数据库：增加，删除
+6.登录，注册页面以及后台代码。
+
+方法的动态调用：
+	在struts.xml中action的名字!action类中方法的名字。
+
+通配符的访问方式：
+
+	创建一个book.jsp页面，页面中有add,update,delete,search
+		<a href="Book_add">book add</a><br>
+		<a href="Book_update">book update</a><br>
+		<a href="Book_delete">book delete</a><br>
+		<a href="Book_search">book search</a><br>
+	
+	创建BookAction并在其中创建方法：
+		public String add(){
+			System.out.println("add 方法执行。。。");
+			return NONE;
+		}
+		public String update(){
+			System.out.println("update 方法执行。。。");
+			return NONE;
+		}
+		public String delete(){
+			System.out.println("delete 方法执行。。。");
+			return NONE;
+		}
+		public String search(){
+			System.out.println("search 方法执行。。。");
+			return NONE;
+		}
+	struts.xml中配置action：
+	<action name="*_*" class="com.chinasoft.app.action.{1}Action" method="{2}"></action>
+
+		访问的链接为：Book_add
+		1:第一个*代表action的名字Book
+		2.第二个*代表方法的名字，add
+Action：
+public static final String SUCCESS = "success";//数据处理成功跳转
+public static final String NONE = "none";//不跳转页面，功能就是相当于null
+public static final String ERROR = "error";//数据处理发送错误信息（错误页面）
+ public static final String INPUT = "input";//用户输入数据有误，通常用于表单数据验证（一般用于输入页面）
+ public static final String LOGIN = "login";//权限认证（登录时候使用）
+
+ 重点内容：
+	查看编译后的jsp页面：
+	D:\workspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\work\Catalina\localhost\struts2_7_12\org\apache\jsp
+ servlet中：request，response，session
+
+ request:一次请求生效，请求完成，值就没了
+	HttpServletRequest request = ServletActionContext.getRequest();
+		request.setAttribute("username", "zhangsan");
+ session:一次会话有效，浏览器没有关闭有效
+	HttpSession session =request.getSession();
+		session.setAttribute("msg", 123);
+
+result：type类型
+	<result-type name="chain" class="com.opensymphony.xwork2.ActionChainResult"/>
+            <result-type name="dispatcher" class="org.apache.struts2.dispatcher.ServletDispatcherResult" default="true"/>
+            <result-type name="freemarker" class="org.apache.struts2.views.freemarker.FreemarkerResult"/>
+            <result-type name="httpheader" class="org.apache.struts2.dispatcher.HttpHeaderResult"/>
+            <result-type name="redirect" class="org.apache.struts2.dispatcher.ServletRedirectResult"/>
+            <result-type name="redirectAction" class="org.apache.struts2.dispatcher.ServletActionRedirectResult"/>
+            <result-type name="stream" class="org.apache.struts2.dispatcher.StreamResult"/>
+            <result-type name="velocity" class="org.apache.struts2.dispatcher.VelocityResult"/>
+            <result-type name="xslt" class="org.apache.struts2.views.xslt.XSLTResult"/>
+            <result-type name="plainText" class="org.apache.struts2.dispatcher.PlainTextResult" />
+ 
+必须掌握：
+dispatcher：请求转发
+redirect： 重定向 从一个action跳转到页面
+redirectAction：代表重定向，它是从一个action跳转到另一个action
+stream：代表服务器端返回的一个流，一般用于下载。
+chain：相当于请求转发，一般情况下从一个action跳转到另一个action。
+
+全局页面和局部页面：
+book.jsp页面：
+add,update,delete,search
+
+		<global-results>
+			<result name="fail">index.jsp</result>
+		</global-results>

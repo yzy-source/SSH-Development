@@ -1,0 +1,51 @@
+login.jsp----LoginAction-->index.jsp
+
+
+配置文件加载顺序：
+
+
+            init_DefaultProperties(); // [1]------org.apache.struts2.default.properties
+            init_TraditionalXmlConfigurations(); // [2] struts-default.xml,struts-plugin.xml.struts.xml
+            init_LegacyStrutsProperties(); // [3]struts.properties
+            init_CustomConfigurationProviders(); // [5]--自定义配置
+            init_FilterInitParameters() ; // [6] web.xml
+            init_AliasStandardObjects() ; // [7]
+
+	    注意：后加载会覆盖掉先加载
+2.package:作用：是声明一个包。用于管理action
+	1.name:用于声明一个包名，不能重复。
+	2.namespace：
+	3.extends
+3.action：
+	1.name:自己定义的一个名字
+	2.class：类的路径名字
+	3.method：指定action类中的方法的名称
+4:result:
+	1.name:它与action中的方法的返回值进行对比，确定跳转路径。
+
+获取参数：
+	属性驱动：
+	1：
+		1.在action中声明两个参数，username，password，名字与页面上的名字一致。
+		2.给两个参数一个get/set方法：shift+alt+s
+		3.在默认方法中直接输出
+	2：	1.创建一个User
+		2.private User user;声明User/提供get/set
+		3.修改页面的参数名字，user.username,user.password
+	模型驱动：
+		1.让LoginAction实现ModelDriven<User> ，然后重写getModel
+		2.在LoginAction中去实例化一个User
+		3.让getModel方法返回user
+
+
+登录业务：
+	1.根据用户名密码查询数据库，登录成功，
+
+
+	动态方法的调用：
+	login!add
+
+
+		
+	
+

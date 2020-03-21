@@ -1,0 +1,8 @@
+jboss工具使用：
+	生成java文件和其映射文件
+1：help--->new install software--->add去添加jboss jar-->
+在第一个中选择Hibernate tool-->******取消联网--->默认安装，出现两个提示框，第一个OK，第二个yes
+Windows下的customize -->command-->hibernate code--->
+Windows下的show view-->hibernate - >hibernate configu--->出现面板中选择加号，3.5，然后选择要导入的工程。
+
+

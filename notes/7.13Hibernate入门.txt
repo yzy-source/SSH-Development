@@ -1,0 +1,42 @@
+Hibernate:
+orm
+O:object
+R:relational
+M:Mapping
+
+1.hibernate入门：
+	1.导包：documentation:文档
+		lib：jar包
+			bytecode：操作字节码jar包
+			jpa：hibernate的实现jpa的规范
+			optional：可选择的包
+			required：必须的jar
+
+		project：工程项目
+	2，hibernate3
+		1.导入两个配置文件，修改hibernate.cfg.xml：数据库信息和自己的一样
+		2.创建一个User.java类
+		3。导入XXX.hbm.xml，命名为与创建类同名
+		4.编写测试类
+			//1.加载配置文件
+			Configuration config = new Configuration().configure();
+			//2.构建session工厂
+			SessionFactory sessionFactory = config.buildSessionFactory();
+			//3.通过session工厂创建session
+			Session session = sessionFactory.openSession();
+			//4.开启事务
+			Transaction tran = session.beginTransaction();
+			//5.操作
+			//HQL查询
+			String hql="from User";
+			Query query = session.createQuery(hql);
+			List<User> list = query.list();
+			for(User user :list){
+				System.out.println(user.getUsername());
+			}
+			
+			//6.事务提交
+			tran.commit();
+			//7.释放资源
+			session.close();
+			sessionFactory.close();

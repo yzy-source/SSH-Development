@@ -1,0 +1,57 @@
+1.拦截器：
+	1.1拦截器是什么？
+
+	1.2怎么使用？
+		1.创建类，去继承AbstractInterceptor，实现intercept
+		2.struts.xml文件
+		<!-- 声明拦截器 -->
+			<interceptors>
+				<interceptor name="my" class="com.chinasoft.app.interceptor.MyInterceptor"></interceptor>
+			</interceptors>
+			//使用拦截器
+			在action中去指向：
+			<interceptor-ref name="my"></interceptor-ref>
+	1.3：分析拦截器原理：
+
+
+
+
+	if (interceptors.hasNext()) {//判断是否有下一个拦截器
+                final InterceptorMapping interceptor = interceptors.next();//得到一个拦截器
+                String interceptorMsg = "interceptor: " + interceptor.getName();
+                UtilTimerStack.push(interceptorMsg);
+                try {
+                                resultCode = interceptor.getInterceptor().intercept(DefaultActionInvocation.this);
+				//调用得到拦截器的方法。将本类对象传递到拦截器中
+                            }
+                finally {
+                    UtilTimerStack.pop(interceptorMsg);
+                }
+	1.4：
+
+	手动去配置一个拦截器的时候，
+案例：
+	权限控制：
+	1.login.jsp--->LoginAction-------->book.jsp---》BookAction
+	2.在book.jsp中提供crud链接（add,update,delete,search）
+		每个方法链接访问BookAction中的一个方法。
+	要求：对于BookAction中的add,update,delete四个方法，只要登陆后才可以访问，search可以直接访问
+	
+	1.创建BookInterceptor类，继承MethodFilterInterceptor
+	2.去实现doIntercept：
+		String username = (String) ServletActionContext.getRequest().getSession().getAttribute("username");
+		if(username==null){
+			BookAction action = (BookAction) invocation.getAction();
+			action.addActionError("权限不足，请先登录！");
+			return "fail";
+		}
+	3.在struts.xml中，声明拦截器，然后把它指给BookAction
+		action name="Book_*" class="com.chinasoft.app.action.BookAction" method="{1}">
+			<result name="success" type="">index.jsp</result>
+			<result name="fail">login.jsp</result>
+			<interceptor-ref name="bookInterceptor"></interceptor-ref>
+		</action>
+	4.在页面中，引入struts2的标签
+		<%@ taglib prefix="s" uri="/struts-tags" %>
+		<s:actionerror/>
+	
