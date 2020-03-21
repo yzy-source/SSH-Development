@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2017-7-22 13:29:50 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.chinasoft.app.domain.Admin" table="admin" catalog="test">
+        <id name="adminId" type="java.lang.Integer">
+            <column name="admin_id" />
+            <generator class="identity" />
+        </id>
+        <property name="adminName" type="string">
+            <column name="admin_name" not-null="true" />
+        </property>
+        <property name="adminPassword" type="string">
+            <column name="admin_password" not-null="true" />
+        </property>
+        <property name="job" type="string">
+            <column name="job" />
+        </property>
+        <set name="recordlists" table="recordlist" inverse="true" lazy="false" fetch="select">
+            <key>
+                <column name="admin_id" />
+            </key>
+            <one-to-many class="com.chinasoft.app.domain.Recordlist" />
+        </set>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2017-7-22 13:29:50 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.chinasoft.app.domain.Warehouse" table="warehouse" catalog="test">
+        <id name="WId" type="java.lang.Integer">
+            <column name="w_id" />
+            <generator class="identity" />
+        </id>
+        <property name="location" type="string">
+            <column name="location" />
+        </property>
+        <property name="wareName" type="string">
+            <column name="ware_name" />
+        </property>
+        <property name="WPhone" type="string">
+            <column name="w_phone" />
+        </property>
+        <set name="recordlists" table="recordlist" inverse="true" lazy="false" fetch="select">
+            <key>
+                <column name="w_id" not-null="true" />
+            </key>
+            <one-to-many class="com.chinasoft.app.domain.Recordlist" />
+        </set>
+        <set name="stores" table="store" inverse="true" lazy="false" fetch="select">
+            <key>
+                <column name="w_id" />
+            </key>
+            <one-to-many class="com.chinasoft.app.domain.Store" />
+        </set>
+    </class>
+</hibernate-mapping>

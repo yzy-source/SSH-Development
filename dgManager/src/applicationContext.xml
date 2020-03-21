@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop.xsd
+	http://www.springframework.org/schema/tx 
+	http://www.springframework.org/schema/tx/spring-tx.xsd">
+	<!-- 没有Hibernate配置文件 -->
+	<!-- 连接池信息 -->
+	<!-- 引入外部属性文件. -->
+	<context:property-placeholder location="classpath:jdbc.properties" />
+
+	<!-- 配置c3p0连接池 -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass" value="${jdbc.driver}" />
+		<property name="jdbcUrl"
+			value="jdbc:mysql:///test?useUnicode=true&amp;characterEncoding=UTF-8" />
+		<property name="user" value="${jdbc.user}" />
+		<property name="password" value="${jdbc.password}" />
+	</bean>
+
+	<!-- 零障碍整合 在spring配置文件中引入hibernate的配置文件 -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<!-- 管理连接池 -->
+		<property name="dataSource" ref="dataSource" />
+		<!-- 配置Hibernate的属性 -->
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="hibernate.show_sql">false</prop>
+				<prop key="connection.characterEncoding">utf-8</prop>
+				<prop key="hibernate.format_sql">true</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.connection.autocommit">false</prop>
+			</props>
+		</property>
+
+		<!-- 加载映射 -->
+		<property name="mappingResources">
+			<list>
+				<value>com/chinasoft/app/domain/Products.hbm.xml</value>
+				<value>com/chinasoft/app/domain/Brand.hbm.xml</value>
+				<value>com/chinasoft/app/domain/Messagebox.hbm.xml</value>
+				<value>com/chinasoft/app/domain/Recordlist.hbm.xml</value>
+				<value>com/chinasoft/app/domain/Store.hbm.xml</value>
+				<value>com/chinasoft/app/domain/Warehouse.hbm.xml</value>
+				<value>com/chinasoft/app/domain/Customer.hbm.xml</value>
+				<value>com/chinasoft/app/domain/Orderinfo.hbm.xml</value>
+				<value>com/chinasoft/app/domain/Admin.hbm.xml</value>
+			    <value>com/chinasoft/app/domain/Po.hbm.xml</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- 配置Action -->
+	<bean id="productAction" class="com.chinasoft.app.action.ProductAction"
+		scope="prototype">
+		<property name="productService" ref="productService" />
+		<property name="messageService" ref="messsageService" />
+	</bean>
+	<bean id="brandAction" class="com.chinasoft.app.action.BrandAction"
+		scope="prototype">
+		<property name="brandService" ref="brandService" />
+	</bean>
+	<bean id="customerAction" class="com.chinasoft.app.action.CustomerAction"
+		scope="prototype">
+		<property name="customerservice" ref="customerService" />
+		<property name="orderinfoservice"  ref="orderinfoservice"/>
+	</bean>
+	<bean id="userLoginAction" class="com.chinasoft.app.action.UserLoginAction"
+		scope="prototype">
+		<property name="userservice" ref="userService" />
+	</bean>
+	<bean id="adminLoginAction" class="com.chinasoft.app.action.AdminLoginAction"
+		scope="prototype">
+		<property name="adminservice" ref="adminService" />
+	</bean>
+	<bean id="messageAction" class="com.chinasoft.app.action.MessageAction"
+		scope="prototype">
+		<property name="messageservice" ref="messageService" />
+	</bean>
+	<bean id="StoreAction" class="com.chinasoft.app.action.StoreAction" scope="prototype">
+		<property name="storeService" ref="storeService"/>
+	</bean>
+	<bean id="RecordAction" class="com.chinasoft.app.action.RecordAction" scope="prototype">
+		<property name="storeService" ref="storeService"/>
+		 <property name="productService" ref="productService" />
+	</bean>
+	<bean id="OrderinfoAction"   class="com.chinasoft.app.action.OrderinfoAction" scope="prototype">
+          <property name="orderinfoservice"  ref=" orderinfoservice"/>
+          <property name="customerService" ref="customerService" />
+     </bean>
+       <bean id="PoAction"   class="com.chinasoft.app.action.PoAction" scope="prototype">
+          <property name="poservice"  ref="poservice"/>
+     </bean>
+
+	<!-- Service的配置 -->
+	<bean id="productService" class="com.chinasoft.app.service.impl.ProductServiceImpl">
+		<property name="productDao" ref="productDao" />
+	</bean>
+	<bean id="brandService" class="com.chinasoft.app.service.impl.BrandServiceImpl">
+		<property name="brandDao" ref="brandDao" />
+	</bean>
+	<bean id="customerService" class="com.chinasoft.app.service.impl.CustomerServiceImpl">
+		<property name="customerdao" ref="customerDao" />
+	</bean>
+	<bean id="userService" class="com.chinasoft.app.service.impl.UserServiceImpl">
+		<property name="userdao" ref="userDao" />
+	</bean>
+	<bean id="adminService" class="com.chinasoft.app.service.impl.AdminServiceImpl">
+		<property name="admindao" ref="adminDao" />
+	</bean>
+	<bean id="messageService" class="com.chinasoft.app.service.impl.MessageServiceImpl">
+		<property name="messagedao" ref="messageDao" />
+	</bean>
+	<bean id="storeService" class="com.chinasoft.app.service.impl.StoreServiceImpl">
+		<property name="storeDao" ref="storeDao"/>
+	</bean>
+	<bean id="recordService" class="com.chinasoft.app.service.impl.RecordServiceImpl">
+		<property name="recordDao" ref="recordDao"/>
+	</bean>
+	<bean id="orderinfoservice" class="com.chinasoft.app.service.impl.OrderinfoServiceImpl">
+		<property name="orderDao" ref="orderDao"/>
+	</bean>
+		<bean id="poservice" class="com.chinasoft.app.service.impl.PoServiceImpl">
+		<property name="poDao" ref="poDao"/>
+	</bean>
+
+
+	<!-- DAO的配置 -->
+	<bean id="productDao" class="com.chinasoft.app.dao.impl.ProductDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="brandDao" class="com.chinasoft.app.dao.impl.BrandDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="customerDao" class="com.chinasoft.app.dao.impl.CustomerDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean id="userDao" class="com.chinasoft.app.dao.impl.UserDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean id="adminDao" class="com.chinasoft.app.dao.impl.AdminDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean id="messageDao" class="com.chinasoft.app.dao.impl.MessageDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean id="storeDao" class="com.chinasoft.app.dao.impl.StoreDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+		<bean id="recordDao" class="com.chinasoft.app.dao.impl.RecordDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean id="orderDao" class="com.chinasoft.app.dao.impl.OrderDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	<bean id="poDao" class="com.chinasoft.app.dao.impl.PoDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+
+
+
+	<!-- 管理事务 -->
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<!-- 注解开启事务 -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+	</beans>

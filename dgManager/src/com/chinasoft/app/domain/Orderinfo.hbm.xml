@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2017-7-22 13:29:50 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.chinasoft.app.domain.Orderinfo" table="orderinfo" catalog="test">
+        <id name="oid" type="java.lang.Integer">
+            <column name="oid" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="customer" class="com.chinasoft.app.domain.Customer" fetch="select" lazy="false">
+            <column name="uid" />
+        </many-to-one>
+        <property name="orderTime" type="timestamp">
+            <column name="order_time" length="19" />
+        </property>
+        <property name="totalMoney" type="string">
+            <column name="total_money" />
+        </property>
+        <property name="totalAmount" type="java.lang.Integer">
+            <column name="total_amount" />
+        </property>
+        <property name="issure" type="java.lang.Integer">
+            <column name="issure" />
+        </property>
+        <property name="address" type="string">
+            <column name="address" />
+        </property>
+        <set name="pos" table="po" inverse="true" lazy="false" fetch="select">
+            <key>
+                <column name="oids" not-null="true" />
+            </key>
+            <one-to-many class="com.chinasoft.app.domain.Po" />
+        </set>
+    </class>
+</hibernate-mapping>

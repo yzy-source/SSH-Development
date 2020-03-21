@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+
+	<package name="default" namespace="/" extends="struts-default">
+	
+	
+	<interceptors>
+    <interceptor name="myinterceptor" class="com.chinasoft.app.interceptor.MessageInterceptor">
+    <param name="includeMethods">messAdd</param>
+    </interceptor>
+    <interceptor-stack name="mystack">
+    <interceptor-ref name="myinterceptor"></interceptor-ref>
+    <interceptor-ref name="defaultStack"></interceptor-ref>
+    </interceptor-stack>
+    </interceptors>
+    
+    <global-results>
+      <result name="fail">front/userLogin.jsp</result>
+    </global-results>
+		<action name="Product_*" class="com.chinasoft.app.action.ProductAction"
+			method="{1}">
+			<result name="success">product/product.jsp</result>
+			<result name="findById">product/updateProduct.jsp</result>
+			<result name="doAdd">product/addProduct.jsp</result>
+			<result name="product_view">product/productView.jsp</result>
+			<result name="product_search" type="redirectAction">Product_search</result>
+			<result name="showStore">product/storeDetail.jsp</result>
+			<result name="showMessage">product/messageView.jsp</result>
+			<result name="productPage">front/productPage.jsp</result>
+			<result name="product_detailview">front/productDetail.jsp</result>
+			<result name="delete_mess_success" type="chain"> Product_messageDetail</result>
+		</action>
+		<action name="Brand_*" class="com.chinasoft.app.action.BrandAction"
+			method="{1}">
+			<result name="success">product/brand.jsp</result>
+			<result name="doAdd">product/addBrand.jsp</result>
+			<result name="brand_search" type="redirectAction">Brand_search</result>
+		</action>
+
+		<action name="userlogin" class="userLoginAction">
+			<result name="success">${pageContext.request.contextPath}/frontIndex.jsp</result>
+			<result name="fail">${pageContext.request.contextPath}/front/userLogin.jsp</result>
+			<result name="user_register">${pageContext.request.contextPath}/front/userRegister.jsp</result>
+			<result name="user_register_success">${pageContext.request.contextPath}/front/userLogin.jsp</result>
+		</action>
+
+		<action name="adminlogin" class="adminLoginAction">
+			<result name="success" type="redirectAction">customer_search</result>
+			<result name="fail">adminLogin.jsp</result>
+			<result name="admin_register">adminRegister.jsp</result>
+			<result name="admin_register_success">adminLogin.jsp</result>
+		</action>
+		
+		<action name="message_*" class="messageAction" method="{1}">
+		    <result name="add">Message/addMessage.jsp</result>
+<!-- 		<result name="add_mess_success">message_searchByUid</result> -->
+			<result name="delete_mess_success" type="chain">message_searchByUid</result>
+			
+			<!-- <result name="update_mess_success">product.jsp</result> -->
+			<!-- <result name="findmessage">Customer/update.jsp</result> -->
+			<result name="search_username_success">Message/uidMessage.jsp</result>
+			<result name="search_uid_success">Message/uidMessage.jsp</result>
+			<result name="add_mess_success" type="chain">Product_detailview</result>
+			<interceptor-ref name="mystack"></interceptor-ref>
+		</action>
+
+		<action name="customer_*" class="customerAction" method="{1}">
+			<result name="addcustomer">Customer/addcust.jsp</result>
+			<result name="add_success" type="redirectAction">customer_search</result>
+			<result name="delete_success" type="redirectAction">customer_search</result>
+			<result name="update_success" type="redirectAction">customer_search</result>
+			<result name="vip_delete_success" type="redirectAction">customer_vipsearch</result>
+			<result name="notvip_delete_success" type="redirectAction">customer_notvipsearch</result>
+			<result name="vip_search">Customer/vip.jsp</result>
+			<result name="not_vip_search">Customer/notvip.jsp</result>
+			<result name="search_success">Customer/AllCustomer.jsp</result>
+			<result name="showorder">Customer/OrderView.jsp</result>
+			<result name="findcustomer">Customer/update.jsp</result>
+			<result name="order_delete_success" type="chain">customer_orderView</result>
+			
+		</action>
+		
+		<action name="send_in" class="com.chinasoft.app.action.RecordAction" method="send_in">
+        <result name="product_sent_in" type="redirectAction">show</result>
+        </action>
+        <action name="send_out" class="com.chinasoft.app.action.RecordAction" method="send_out">
+        <result name="product_sent_out" type="redirectAction">show</result>
+        </action>
+        <action name="search" class="com.chinasoft.app.action.StoreAction" method="find_product_byname">
+        <result name="success" >store/showresult2.jsp</result>
+        <result name="fail" >store/noresult2.jsp</result>
+        </action>
+        <action name="show" class="com.chinasoft.app.action.StoreAction" method="showall">
+        <result name="success" >store/storemanager.jsp</result>
+        </action>
+        <action name="showrecord" class="com.chinasoft.app.action.RecordAction" method="showrecord">
+        <result name="success" >store/showrecord2.jsp</result>
+        </action>
+        
+        
+        <action name="orderinfo_*"  class="com.chinasoft.app.action.OrderinfoAction" method="{1}" >
+             <result name="success" >order/orderinfo.jsp</result>
+			<result name="findById">order/update.jsp</result>
+			<result name="orderinfo_search" type="redirectAction">orderinfo_search</result>
+		</action>
+		
+		<action name="po_SearchByPid" class="com.chinasoft.app.action.PoAction"  method="SearchByPid">
+		<result name="success">order/orderinfo.jsp</result>
+		</action>
+		
+	</package>
+
+	<!-- Add packages here -->
+</struts>

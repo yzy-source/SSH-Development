@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2017-7-22 13:29:50 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.chinasoft.app.domain.Store" table="store" catalog="test">
+        <id name="storeId" type="java.lang.Integer">
+            <column name="store_id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="warehouse" class="com.chinasoft.app.domain.Warehouse" fetch="select" lazy="false">
+            <column name="w_id" />
+        </many-to-one>
+        <many-to-one name="products" class="com.chinasoft.app.domain.Products" fetch="select" lazy="false">
+            <column name="product_id" />
+        </many-to-one>
+        <property name="storeNum" type="java.lang.Integer">
+            <column name="storeNum" />
+        </property>
+    </class>
+</hibernate-mapping>

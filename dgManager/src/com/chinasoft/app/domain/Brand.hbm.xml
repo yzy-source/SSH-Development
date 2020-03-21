@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2017-7-22 13:29:50 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.chinasoft.app.domain.Brand" table="brand" catalog="test">
+        <id name="bname" type="string">
+            <column name="b_name" />
+            <generator class="assigned" />
+        </id>
+        <property name="country" type="string">
+            <column name="Country" not-null="true" />
+        </property>
+        <set name="productses" table="products" inverse="true" lazy="false" fetch="select">
+            <key>
+                <column name="b_name" />
+            </key>
+            <one-to-many class="com.chinasoft.app.domain.Products" />
+        </set>
+    </class>
+</hibernate-mapping>

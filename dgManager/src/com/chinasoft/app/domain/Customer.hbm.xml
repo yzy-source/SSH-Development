@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2017-7-22 13:29:50 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.chinasoft.app.domain.Customer" table="customer" catalog="test">
+        <id name="uid" type="java.lang.Integer">
+            <column name="uid" />
+            <generator class="identity" />
+        </id>
+        <property name="username" type="string">
+            <column name="username" not-null="true" />
+        </property>
+        <property name="password" type="string">
+            <column name="password" not-null="true" />
+        </property>
+        <property name="address" type="string">
+            <column name="address" />
+        </property>
+        <property name="telephone" type="string">
+            <column name="telephone" />
+        </property>
+        <property name="isvip" type="boolean">
+            <column name="isvip" not-null="true" />
+        </property>
+        <property name="vipId" type="string">
+            <column name="vip_id" />
+        </property>
+        <property name="credit" type="java.lang.Integer">
+            <column name="credit" />
+        </property>
+        <property name="degree" type="java.lang.Integer">
+            <column name="degree" />
+        </property>
+        <set name="orderinfos" table="orderinfo" inverse="true" lazy="false" fetch="select">
+            <key>
+                <column name="uid" />
+            </key>
+            <one-to-many class="com.chinasoft.app.domain.Orderinfo" />
+        </set>
+        <set name="messageboxes" table="messagebox" inverse="true" lazy="false" fetch="select">
+            <key>
+                <column name="uid" />
+            </key>
+            <one-to-many class="com.chinasoft.app.domain.Messagebox" />
+        </set>
+    </class>
+</hibernate-mapping>
